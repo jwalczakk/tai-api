@@ -2,14 +2,12 @@ package pl.polsl.tai.flappyfish.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.tai.flappyfish.dto.ResultDto;
 import pl.polsl.tai.flappyfish.service.ResultsService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ResultsController {
@@ -28,12 +26,10 @@ public class ResultsController {
     }
 
     @GetMapping("/results")
-    public ResponseEntity<List<ResultDto>> getAllResults() {
-        return ResponseEntity.ok(resultsService.getAllResults());
-    }
-
-    @GetMapping(value = "/specified")
-    public ResponseEntity<List<ResultDto>> getSpecifiedResults() {
-        return ResponseEntity.ok(resultsService.getSpecifiedResults());
+    public ResponseEntity<List<ResultDto>> getAllResults(@RequestParam Map<String, String> params) {
+        if (params.isEmpty()) {
+            return ResponseEntity.ok(resultsService.getAllResults());
+        }
+        return ResponseEntity.ok(resultsService.getSpecifiedResults(params));
     }
 }
