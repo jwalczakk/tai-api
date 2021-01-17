@@ -33,7 +33,7 @@ public class ResultsService {
       String username = (i % 2 == 0) ? "champion" : ("user" + i);
       Result result = Result.builder()
           .id((long) i)
-          .score((long) new Random().nextInt(1000))
+          .score((long) new Random().nextInt(50))
           .username(username)
           .resultDate(Instant.now())
           .build();
@@ -61,9 +61,16 @@ public class ResultsService {
       top = Integer.parseInt(params.get("top"));
     }
 
-    final Sort sortBy = Sort.by(sortOrder.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, "score");
+    final Sort.Order sortByScore = sortOrder.equals("ASC") ?
+        Sort.Order.asc("score") : Sort.Order.desc("score");
+
+    final Sort.Order sortByDate = Sort.Order.asc("resultDate");
+    final Sort sort = Sort.by(
+        sortByScore,
+        sortByDate);
+
     Pageable sortedByPriceDescNameAsc =
-        PageRequest.of(0, top, sortBy);
+        PageRequest.of(0, top, sort);
 
     Page<Result> all;
     if (params.containsKey("username")) {

@@ -1,12 +1,13 @@
 package pl.polsl.tai.flappyfish.dto;
 
 
+import java.time.Instant;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Data
 @Builder
@@ -14,7 +15,10 @@ import java.time.Instant;
 @NoArgsConstructor
 public class ResultDto {
 
-    private String username;
-    private Long score;
-    private Instant resultDate;
+  @NotBlank(message = "Username is required.")
+  private String username;
+  @NotNull(message = "Score is required.")
+  private Long score;
+  @NotNull(message = "Result date is required.")
+  private Instant resultDate;
 }

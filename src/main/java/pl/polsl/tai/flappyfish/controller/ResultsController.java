@@ -1,5 +1,6 @@
 package pl.polsl.tai.flappyfish.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class ResultsController {
 
   @CrossOrigin
   @PostMapping("/results")
-  public ResponseEntity<String> insertNewResult(@RequestBody ResultDto result) {
+  public ResponseEntity<List<ResultDto>> insertNewResult(@RequestBody ResultDto result) {
     resultsService.insertResult(result);
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok(resultsService.getSpecifiedResults(new HashMap<>()));
   }
 
   @CrossOrigin
